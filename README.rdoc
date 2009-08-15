@@ -4,7 +4,7 @@ Tool that allows you to work with Pivotal Tracker from the command line.
 
 == Planned Features
 
-Planne features include:
+Planned features include:
 * display stories in current sprint 
 * start working on a ticket that creates a new branch in Git, starts ticket in Pivotal Tracker
 * close ticket in Pivotal Tracker
@@ -22,6 +22,7 @@ Planne features include:
 * Send me a pull request. Bonus points for topic branches.
 
 == Thoughts
+
   * need key/value store to keep track of stories with branches
   * should we keep track of what story we're working on?
 
