@@ -23,8 +23,8 @@ Planned features include:
 
 == Thoughts
 
-  * need key/value store to keep track of stories with branches
-  * should we keep track of what story we're working on?
+* need key/value store to keep track of stories with branches
+* should we keep track of what story we're working on?
 
 == Copyright
 
