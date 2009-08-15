@@ -1,6 +1,14 @@
-= git_pivot
+= Git Pivot
 
-Description goes here.
+Tool that allows you to work with Pivotal Tracker from the command line.
+
+== Planned Features
+
+Planne features include:
+* display stories in current sprint 
+* start working on a ticket that creates a new branch in Git, starts ticket in Pivotal Tracker
+* close ticket in Pivotal Tracker
+* search for stories
 
 == Note on Patches/Pull Requests
  
@@ -13,6 +21,20 @@ Description goes here.
    bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
+== Thoughts
+  * need key/value store to keep track of stories with branches
+  * should we keep track of what story we're working on?
+
 == Copyright
 
-Copyright (c) 2009 hone. See LICENSE for details.
+Copyright (c) 2009 Terence Lee. See LICENSE for details.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
