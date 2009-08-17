@@ -10,7 +10,8 @@ begin
     gem.email = "hone02@gmail.com"
     gem.homepage = "http://github.com/hone/git_pivot"
     gem.authors = ["hone"]
-    gem.add_development_dependency "thoughtbot-shoulda"
+    gem.add_development_dependency "hone-pivotal-tracker"
+    gem.add_development_dependency "rupot"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
