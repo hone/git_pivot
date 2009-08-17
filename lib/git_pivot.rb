@@ -18,33 +18,37 @@
 =end
 
 require 'ruport'
+require 'pivotal-tracker'
 
-class GitPivot
+module GitPivot
+  class GitPivot
 
-  # ssl should default to yes since http basic auth is insecure
-  def initialize(project_id, token, use_ssl = true)
-    @tracker = PivotalTracker.new(project_id, token, {:use_ssl => use_ssl })
-  end
-
-  # list stories in current sprint
-  def current_sprint
-    iteration = @tracker.current_iteration
-    data = iteration.stories.collect do |story| 
-      [story.id, story.story_type, story.name]
+    # ssl should default to yes since http basic auth is insecure
+    def initialize(project_id, token, use_ssl = true)
+      @tracker = PivotalTracker.new(project_id, token, {:use_ssl => use_ssl })
     end
 
-    puts Table(:data => data, :column_names => ["ID", "Type", "Name"])
-  end
+    # list stories in current sprint
+    def current_sprint
+      iteration = @tracker.current_iteration
+      data = iteration.stories.collect do |story| 
+        [story.id, story.story_type, story.name]
+      end
 
-  # start story
-  def start_story
-  end
+      puts Table(:data => data, :column_names => ["ID", "Type", "Name"])
+    end
 
-  # finish story
-  def finish_story
-  end
+    # display the full story
+    def display_story(id)
+      @tracker.find_story(id)
+    end
 
-  # find story
-  def find_story
+    # start story
+    def start_story
+    end
+
+    # finish story
+    def finish_story
+    end
   end
 end
