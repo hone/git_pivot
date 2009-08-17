@@ -32,10 +32,10 @@ module GitPivot
     def current_sprint
       iteration = @tracker.current_iteration
       data = iteration.stories.collect do |story| 
-        [story.id, story.story_type, story.name]
+        [story.id, story.story_type, story.owned_by, story.name]
       end
 
-      puts Table(:data => data, :column_names => ["ID", "Type", "Name"])
+      puts Table(:data => data, :column_names => ["ID", "Type", "Owner", "Name"])
     end
 
     # display the full story
