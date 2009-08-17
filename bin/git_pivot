@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+ 
+$:.unshift(File.join(File.dirname(File.dirname(__FILE__)),'lib'))
+begin; require 'rubygems'; rescue LoadError; end
+require 'git_pivot'
+require 'runner'
+ 
+GitPivot::Runner.new(ARGV).run
