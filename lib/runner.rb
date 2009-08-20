@@ -25,7 +25,11 @@ module GitPivot
     def initialize(args)
       @argv = args
       process_args
-      @git_pivot = GitPivot.new(ENV['PT_PROJECT_ID'], ENV['PT_TOKEN'])
+      # configuration stuff
+      configuration = YAML.load_file("git_pivot.yml")
+      puts configuration.inspect
+
+      @git_pivot = GitPivot.new(configuration["project_id"], configuration["token"])
     end
 
     def run
