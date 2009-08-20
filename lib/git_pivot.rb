@@ -32,28 +32,39 @@ module GitPivot
     def current_sprint
       iteration = @tracker.current_iteration
       data = iteration.stories.collect do |story| 
-        [story.id, story.story_type, story.owned_by, story.name]
+        [story.id, story.story_type, story.owned_by, story.current_state, story.name]
       end
 
-      puts Table(:data => data, :column_names => ["ID", "Type", "Owner", "Name"])
+      puts Table(:data => data, :column_names => ["ID", "Type", "Owner", "State", "Name"])
     end
 
     # display the full story
     def display_story(id)
       story = @tracker.find_story(id)
       data = [:id, :name, :current_state, :estimate, :iteration, :story_type, :labels, :owned_by, :requested_by, :created_at, :accepted_at, :url].collect do |element_name|
-        [element_name.to_s, story.send(element_name)]
+        element = story.send(element_name)
+        [element_name.to_s, element.to_s]
       end
 
       puts Table(:data => data, :column_names => ["Element", "Value"])
     end
 
     # start story
-    def start_story
+    def start_story(id)
+      story = @tracker.find_story(id)
+      story.current_state = "started"
+      update_story(story)
+
+      display_story(id)
     end
 
     # finish story
-    def finish_story
+    def finish_story(id)
+      story = @tracker.find_story(id)
+      story.current_state = "finished"
+      update_story(story)
+
+      display_story(id)
     end
   end
 end
