@@ -27,7 +27,6 @@ module GitPivot
       process_args
       # configuration stuff
       configuration = YAML.load_file("git_pivot.yml")
-      puts configuration.inspect
 
       @git_pivot = GitPivot.new(configuration["project_id"], configuration["token"])
     end
