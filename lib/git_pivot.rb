@@ -43,12 +43,18 @@ module GitPivot
     # display the full story
     def display_story(id)
       story = @tracker.find_story(id)
+      notes = @tracker.notes(id)
       data = [:id, :name, :current_state, :estimate, :iteration, :story_type, :labels, :owned_by, :requested_by, :created_at, :accepted_at, :url, :description].collect do |element_name|
         element = story.send(element_name)
         [element_name.to_s, element.to_s]
       end
 
       puts Table(:data => data, :column_names => ["Element", "Value"])
+      notes.each do |note|
+        puts "#{note.noted_at} - #{note.author}"
+        puts note.text
+        puts
+      end
     end
 
     # start story
