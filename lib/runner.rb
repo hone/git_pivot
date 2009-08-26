@@ -28,7 +28,7 @@ module GitPivot
       # configuration stuff
       configuration = YAML.load_file("git_pivot.yml")
 
-      @git_pivot = GitPivot.new(configuration["project_id"], configuration["token"])
+      @git_pivot = GitPivot.new(configuration["project_id"], configuration["token"], configuration["owner"])
     end
 
     def run

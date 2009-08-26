@@ -24,7 +24,8 @@ module GitPivot
   class GitPivot
 
     # ssl should default to yes since http basic auth is insecure
-    def initialize(project_id, token, use_ssl = true)
+    def initialize(project_id, token, owner, use_ssl = true)
+      @owner = owner
       @tracker = PivotalTracker.new(project_id, token, {:use_ssl => use_ssl })
     end
 
@@ -35,7 +36,7 @@ module GitPivot
     end
 
     def my_work
-      stories = @tracker.find({:owner => "Terence Lee", :state => "unstarted,started,finished,delivered,rejected"})
+      stories = @tracker.find({:owner => @owner, :state => "unstarted,started,finished,delivered,rejected"})
       display_stories(stories)
     end
 
