@@ -31,17 +31,18 @@ module GitPivot
     # list stories in current sprint
     def current_sprint
       iteration = @tracker.current_iteration
-      data = iteration.stories.collect do |story| 
-        [story.id, story.story_type, story.owned_by, story.current_state, story.name]
-      end
+      display_stories(iteration.stories)
+    end
 
-      puts Table(:data => data, :column_names => ["ID", "Type", "Owner", "State", "Name"])
+    def my_work
+      stories = @tracker.find({:owner => "Terence Lee", :state => "unstarted,started,finished,delivered,rejected"})
+      display_stories(stories)
     end
 
     # display the full story
     def display_story(id)
       story = @tracker.find_story(id)
-      data = [:id, :name, :current_state, :estimate, :iteration, :story_type, :labels, :owned_by, :requested_by, :created_at, :accepted_at, :url].collect do |element_name|
+      data = [:id, :name, :current_state, :estimate, :iteration, :story_type, :labels, :owned_by, :requested_by, :created_at, :accepted_at, :url, :description].collect do |element_name|
         element = story.send(element_name)
         [element_name.to_s, element.to_s]
       end
@@ -53,7 +54,7 @@ module GitPivot
     def start_story(id)
       story = @tracker.find_story(id)
       story.current_state = "started"
-      update_story(story)
+      @tracker.update_story(story)
 
       display_story(id)
     end
@@ -61,10 +62,24 @@ module GitPivot
     # finish story
     def finish_story(id)
       story = @tracker.find_story(id)
-      story.current_state = "finished"
-      update_story(story)
+      if story.story_type == "feature" or story.story_type == "bug"
+        story.current_state = "finished"
+      elsif story.story_type == "chore"
+        story.current_state = "accepted"
+      end
+      @tracker.update_story(story)
 
       display_story(id)
     end
+
+    private
+    def display_stories(stories)
+      data = stories.collect do |story| 
+        [story.id, story.story_type, story.owned_by, story.current_state, story.name]
+      end
+
+      puts Table(:data => data, :column_names => ["ID", "Type", "Owner", "State", "Name"])
+    end
+
   end
 end
