@@ -2,6 +2,20 @@
 
 Tool that allows you to work with Pivotal Tracker from the command line.
 
+== Installation and Usage
+
+To install:
+
+    $ gem install hone-git_pivot
+    
+Now you'll need to add a <tt>git_pivot.yml</tt> to the root directory of your project:
+
+    project_id: 213992
+    token: 3a9390ed9309ba304903939ae948298
+    owner: Matt Buck
+    
+... where <tt>owner</tt> is your name as it appears in the Pivotal Tracker interface.
+
 == Planned Features
 
 Planned features include:
