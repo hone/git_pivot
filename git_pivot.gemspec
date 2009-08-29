@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["hone"]
-  s.date = %q{2009-08-26}
+  s.date = %q{2009-08-29}
   s.default_executable = %q{git_pivot}
   s.description = %q{TODO: longer description of your gem}
   s.email = %q{hone02@gmail.com}
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "bin/git_pivot",
+     "git_pivot.gemspec",
      "lib/git_pivot.rb",
      "lib/runner.rb"
   ]
