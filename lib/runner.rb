@@ -23,22 +23,33 @@ require 'date'
 module GitPivot
   class Runner
     SUB_COMMANDS = %w{current work display start finish}
+    STATE_FILE = "git_pivot.state"
     
     def initialize(args)
       @cmd, @cmd_opts = process_args(args)
 
       # configuration stuff
       configuration = YAML.load_file("git_pivot.yml")
+      File.open(STATE_FILE) {|file| @state = Marshal.load(file) } if File.exist?(STATE_FILE)
 
       @git_pivot = GitPivot.new(configuration["project_id"], configuration["token"], configuration["owner"])
     end
 
     def run
       args = [@cmd]
-      if @git_pivot.method(@cmd).arity == 1 and @cmd_opts[:id]
-        args << @cmd_opts[:id]
+      if @git_pivot.method(@cmd).arity == 1
+        if @cmd_opts[:id]
+          args << @cmd_opts[:id]
+        elsif @state
+          args << @state
+        else
+          Trollop::die "Need to specify a story id"
+        end
       end
 
+      if @cmd == :start_story
+        File.open(STATE_FILE, 'w') {|file| Marshal.dump(@cmd_opts[:id], file) }
+      end
       @git_pivot.send(*args)
     end
 
@@ -81,7 +92,7 @@ BANNER
           Trollop::options(args) do
             banner "Display information about a specific story."
         
-            opt :id, "The id of the story to display.", :required => true, :type => Integer
+            opt :id, "The id of the story to display.", :type => Integer
           end
         when "start"
           command = :start_story
@@ -97,7 +108,7 @@ BANNER
           Trollop::options(args) do
             banner "Marks a specific story as finished."
         
-            opt :id, "The id of the story to finish.", :required => true, :type => Integer
+            opt :id, "The id of the story to finish.", :type => Integer
           end
         else
           Trollop::die "unknown subcommand #{cmd.inspect}"
