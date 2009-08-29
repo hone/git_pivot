@@ -34,7 +34,11 @@ module GitPivot
     end
 
     def run
-      args = @cmd_opts[:id] ? [@cmd, @cmd_opts[:id]] : [@cmd]
+      args = [@cmd]
+      if @git_pivot.method(@cmd).arity == 1 and @cmd_opts[:id]
+        args << @cmd_opts[:id]
+      end
+
       @git_pivot.send(*args)
     end
 
