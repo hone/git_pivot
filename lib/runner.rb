@@ -25,7 +25,7 @@ module GitPivot
     SUB_COMMANDS = %w{current work display start finish}
     
     def initialize(args)
-      @argv = args
+      @cmd, @cmd_opts = process_args(args)
 
       # configuration stuff
       configuration = YAML.load_file("git_pivot.yml")
@@ -34,6 +34,12 @@ module GitPivot
     end
 
     def run
+      args = @cmd_opts[:id] ? [@cmd, @cmd_opts[:id]] : [@cmd]
+      @git_pivot.send(*args)
+    end
+
+    private
+    def process_args(args)
       global_opts = Trollop::options do
         banner <<-BANNER
 A command-line interface for Pivotal Tracker.
@@ -48,26 +54,27 @@ Subcommands:
 BANNER
         stop_on SUB_COMMANDS
       end
-      
-      cmd = @argv.shift
+
+      command = nil
+      cmd = args.shift
       cmd_opts = case cmd
         when "current"
           command = :current_sprint
         
-          Trollop::options do
+          Trollop::options(args) do
             banner "Lists the stories that are part of the current iteration."
           end
         when "work"
           command = :my_work
         
           # FIXME: This help message doesn't appear with a 'git_pivot work -h', but the 'git_pivot current -h' message does.
-          Trollop::options do
+          Trollop::options(args) do
             banner "Lists the stories that you own."
           end
         when "display"
           command = :display_story
         
-          Trollop::options do
+          Trollop::options(args) do
             banner "Display information about a specific story."
         
             opt :id, "The id of the story to display.", :required => true, :type => Integer
@@ -75,7 +82,7 @@ BANNER
         when "start"
           command = :start_story
         
-          Trollop::options do
+          Trollop::options(args) do
             banner "Marks a specific story as started."
         
             opt :id, "The id of the story to start.", :required => true, :type => Integer
@@ -83,7 +90,7 @@ BANNER
         when "finish"
           command = :finish_story
         
-          Trollop::options do
+          Trollop::options(args) do
             banner "Marks a specific story as finished."
         
             opt :id, "The id of the story to finish.", :required => true, :type => Integer
@@ -91,9 +98,8 @@ BANNER
         else
           Trollop::die "unknown subcommand #{cmd.inspect}"
         end
-      
-      args = cmd_opts[:id] ? [command, cmd_opts[:id]] : [command]
-      @git_pivot.send(*args)
+
+      [command, cmd_opts]
     end
   end
 end
