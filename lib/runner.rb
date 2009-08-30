@@ -22,7 +22,7 @@ require 'date'
 
 module GitPivot
   class Runner
-    SUB_COMMANDS = %w{current work display start finish}
+    SUB_COMMANDS = %w{current work display start finish note}
     STATE_FILE = "git_pivot.state"
     
     def initialize(args)
@@ -37,13 +37,18 @@ module GitPivot
 
     def run
       args = [@cmd]
-      if @git_pivot.method(@cmd).arity == 1
+      if @git_pivot.method(@cmd).arity > 0
         if @cmd_opts[:id]
           args << @cmd_opts[:id]
         elsif @state
           args << @state
         else
           Trollop::die "Need to specify a story id"
+        end
+
+        if @cmd_opts[:text]
+          puts @cmd_opts[:text]
+          args << @cmd_opts[:text]
         end
       end
 
@@ -109,6 +114,15 @@ BANNER
             banner "Marks a specific story as finished."
         
             opt :id, "The id of the story to finish.", :type => Integer
+          end
+        when "note"
+          command = :add_note
+
+          Trollop::options(args) do
+            banner "Adds a note to the story."
+
+            opt :id, "The id of the story to finish.", :type => Integer
+            opt :text, "The text of the note.", :required => true, :type => String
           end
         else
           Trollop::die "unknown subcommand #{cmd.inspect}"
