@@ -70,6 +70,7 @@ Subcommands:
   display - Displays information about a specific story.
   start   - Marks a story as started.
   finish  - Marks a story as finished.
+  note    - Add a new note to an existing story
   
 BANNER
         stop_on SUB_COMMANDS
