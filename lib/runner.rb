@@ -47,8 +47,7 @@ module GitPivot
         end
 
         if @cmd_opts[:text]
-          puts @cmd_opts[:text]
-          args << @cmd_opts[:text]
+          args << @cmd_opts[:text].join(' ')
         end
       end
 
@@ -123,7 +122,7 @@ BANNER
             banner "Adds a note to the story."
 
             opt :id, "The id of the story to finish.", :type => Integer
-            opt :text, "The text of the note.", :required => true, :type => String
+            opt :text, "The text of the note.", :required => true, :type => :strings
           end
         else
           Trollop::die "unknown subcommand #{cmd.inspect}"
