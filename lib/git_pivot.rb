@@ -82,6 +82,14 @@ module GitPivot
       display_story(id)
     end
 
+    # add a new note
+    def add_note(id, note_text)
+      note = Note.new(:text => note_text)
+      @tracker.create_note(id, note)
+
+      display_story(id)
+    end
+
     private
     def display_stories(stories)
       data = stories.collect do |story| 
