@@ -73,7 +73,7 @@ module GitPivot
         if @states and @states.first == args[1]
           @states.shift
 
-          File.open(STATE_FILE, 'w') {|file| Marshal.dump(@states, file) }
+          save_state
         end
       end
 
@@ -87,6 +87,10 @@ module GitPivot
     end
 
     private
+    def save_state
+      File.open(STATE_FILE, 'w') {|file| Marshal.dump(@states, file) }
+    end
+
     def add_story_to_states(story_id)
       if @states.nil?
         @states = [story_id]
@@ -95,7 +99,7 @@ module GitPivot
         @states.unshift(story_id)
       end
 
-      File.open(STATE_FILE, 'w') {|file| Marshal.dump(@states, file) }
+      save_state
     end
 
     def process_args(args)
