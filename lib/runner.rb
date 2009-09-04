@@ -64,7 +64,8 @@ module GitPivot
         if @states.nil?
           @states = [@cmd_opts[:id]]
         else
-          @states.push(@cmd_opts[:id])
+          @states.delete(@cmd_opts[:id])
+          @states.unshift(@cmd_opts[:id])
         end
 
         File.open(STATE_FILE, 'w') {|file| Marshal.dump(@states, file) }
