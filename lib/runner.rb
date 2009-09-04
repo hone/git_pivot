@@ -68,6 +68,15 @@ module GitPivot
         @git_pivot.send(*args)
       end
 
+      # must do this after, in case finish fails, don't want to pop
+      if @method == :finish_story
+        if @states and @states.first == args[1]
+          @states.shift
+
+          File.open(STATE_FILE, 'w') {|file| Marshal.dump(@states, file) }
+        end
+      end
+
       case @cmd
       when "stack"
         puts @states
