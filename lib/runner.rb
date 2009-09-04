@@ -22,11 +22,11 @@ require 'date'
 
 module GitPivot
   class Runner
-    SUB_COMMANDS = %w{current work display start finish note stack}
+    SUB_COMMANDS = %w{current work display start finish note stack push}
     STATE_FILE = "git_pivot.state"
     
     def initialize(args)
-      @cmd, @cmd_opts = process_args(args)
+      @method, @cmd, @cmd_opts = process_args(args)
 
       # configuration stuff
       configuration = YAML.load_file("git_pivot.yml")
@@ -45,8 +45,8 @@ module GitPivot
     end
 
     def run
-      args = [@cmd]
-      if @cmd and @git_pivot.method(@cmd).arity > 0
+      args = [@method]
+      if @method and @git_pivot.method(@method).arity > 0
         if @cmd_opts[:id]
           args << @cmd_opts[:id]
         elsif @states.any?
@@ -60,25 +60,35 @@ module GitPivot
         end
       end
 
-      if @cmd == :start_story
-        if @states.nil?
-          @states = [@cmd_opts[:id]]
-        else
-          @states.delete(@cmd_opts[:id])
-          @states.unshift(@cmd_opts[:id])
-        end
-
-        File.open(STATE_FILE, 'w') {|file| Marshal.dump(@states, file) }
+      if @method == :start_story
+        add_story_to_states(@cmd_opts[:id])
       end
 
-      if @cmd
+      if @method
         @git_pivot.send(*args)
-      else
+      end
+
+      case @cmd
+      when "stack"
+        puts @states
+      when "push"
+        add_story_to_states(@cmd_opts[:id])
         puts @states
       end
     end
 
     private
+    def add_story_to_states(story_id)
+      if @states.nil?
+        @states = [story_id]
+      else
+        @states.delete(story_id)
+        @states.unshift(story_id)
+      end
+
+      File.open(STATE_FILE, 'w') {|file| Marshal.dump(@states, file) }
+    end
+
     def process_args(args)
       global_opts = Trollop::options do
         banner <<-BANNER
@@ -92,6 +102,7 @@ Subcommands:
   finish  - Marks a story as finished.
   note    - Add a new note to an existing story
   stack   - Current Stack of Story ids
+  push    - Push a story to the top of the Story Stack
   
 BANNER
         stop_on SUB_COMMANDS
@@ -152,11 +163,19 @@ BANNER
           Trollop::options(args) do
             banner "Displays the stack of story ids."
           end
+        when "push"
+          command = nil
+
+          Trollop::options(args) do
+            banner "Push story to the top of the story stack."
+            
+            opt :id, "The id of the story.", :type => Integer
+          end
         else
           Trollop::die "unknown subcommand #{cmd.inspect}"
         end
 
-      [command, cmd_opts]
+      [command, cmd, cmd_opts]
     end
   end
 end
