@@ -95,6 +95,14 @@ module GitPivot
       display_tasks(id, tasks)
     end
 
+    def add_task(id, task_text)
+      task = Task.new(:description => task_text)
+      @tracker.create_task(id, task)
+
+      tasks = @tracker.tasks(id)
+      display_tasks(id, tasks)
+    end
+
     private
     def display_stories(stories)
       data = stories.collect do |story| 
