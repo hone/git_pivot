@@ -22,7 +22,7 @@ require 'date'
 
 module GitPivot
   class Runner
-    SUB_COMMANDS = %w{current work display start finish note stack push}
+    SUB_COMMANDS = %w{current work display start finish note stack push tasks}
     STATE_FILE = "git_pivot.state"
     
     def initialize(args)
@@ -116,6 +116,7 @@ Subcommands:
   note    - Add a new note to an existing story
   stack   - Current Stack of Story ids
   push    - Push a story to the top of the Story Stack
+  tasks   - Display tasks associated to a story
   
 BANNER
         stop_on SUB_COMMANDS
@@ -182,6 +183,14 @@ BANNER
           Trollop::options(args) do
             banner "Push story to the top of the story stack."
             
+            opt :id, "The id of the story.", :type => Integer
+          end
+        when "tasks"
+          command = :tasks
+
+          Trollop::options(args) do
+            banner "Tasks for a given story."
+
             opt :id, "The id of the story.", :type => Integer
           end
         else

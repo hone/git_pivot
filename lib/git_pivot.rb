@@ -90,6 +90,11 @@ module GitPivot
       display_story(id)
     end
 
+    def tasks(id)
+      tasks = @tracker.tasks(id)
+      display_tasks(id, tasks)
+    end
+
     private
     def display_stories(stories)
       data = stories.collect do |story| 
@@ -97,6 +102,16 @@ module GitPivot
       end
 
       puts Table(:data => data, :column_names => ["ID", "Type", "Owner", "State", "Name"])
+    end
+
+    def display_tasks(story_id, tasks)
+      data = tasks.collect do |task|
+        [task.id, task.position, task.complete, task.created_at, task.description]
+      end
+
+      puts "Story ID: #{story_id}"
+      puts Table(:data => data,
+                 :column_names => ["ID", "Position", "Complete", "Created At", "Description"])
     end
 
   end
