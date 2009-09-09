@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["hone"]
-  s.date = %q{2009-09-08}
+  s.date = %q{2009-09-09}
   s.default_executable = %q{git_pivot}
   s.description = %q{TODO: longer description of your gem}
   s.email = %q{hone02@gmail.com}
@@ -44,16 +44,16 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<hone-pivotal-tracker>, [">= 0"])
-      s.add_development_dependency(%q<rupot>, [">= 0"])
+      s.add_development_dependency(%q<ruport>, [">= 0"])
       s.add_development_dependency(%q<git>, [">= 0"])
     else
       s.add_dependency(%q<hone-pivotal-tracker>, [">= 0"])
-      s.add_dependency(%q<rupot>, [">= 0"])
+      s.add_dependency(%q<ruport>, [">= 0"])
       s.add_dependency(%q<git>, [">= 0"])
     end
   else
     s.add_dependency(%q<hone-pivotal-tracker>, [">= 0"])
-    s.add_dependency(%q<rupot>, [">= 0"])
+    s.add_dependency(%q<ruport>, [">= 0"])
     s.add_dependency(%q<git>, [">= 0"])
   end
 end
