@@ -22,7 +22,7 @@ require 'date'
 
 module GitPivot
   class Runner
-    SUB_COMMANDS = %w{current work display start finish note stack push tasks task}
+    SUB_COMMANDS = %w{current work display start finish note stack push tasks task complete}
     STATE_FILE = "git_pivot.state"
     
     def initialize(args)
@@ -57,6 +57,9 @@ module GitPivot
 
         if @cmd_opts[:text]
           args << @cmd_opts[:text].join(' ')
+        end
+        if @cmd_opts[:"task-id"]
+          args << @cmd_opts[:"task-id"]
         end
       end
 
@@ -108,16 +111,17 @@ module GitPivot
 A command-line interface for Pivotal Tracker.
 
 Subcommands:
-  current - Lists the stories that are part of the current iteration.
-  work    - Lists the stories that you own.
-  display - Displays information about a specific story.
-  start   - Marks a story as started.
-  finish  - Marks a story as finished.
-  note    - Add a new note to an existing story
-  stack   - Current Stack of Story ids
-  push    - Push a story to the top of the Story Stack
-  tasks   - Display tasks associated to a story
-  task    - Add a task to the given story
+  current  - Lists the stories that are part of the current iteration.
+  work     - Lists the stories that you own.
+  display  - Displays information about a specific story.
+  start    - Marks a story as started.
+  finish   - Marks a story as finished.
+  note     - Add a new note to an existing story
+  stack    - Current Stack of Story ids
+  push     - Push a story to the top of the Story Stack
+  tasks    - Display tasks associated to a story
+  task     - Add a task to the given story
+  complete - Mark a task as completed
   
 BANNER
         stop_on SUB_COMMANDS
@@ -202,6 +206,15 @@ BANNER
 
             opt :id, "The id of the story.", :type => Integer
             opt :text, "The text of the task.", :required => true, :type => :strings
+          end
+        when "complete"
+          command = :complete_task
+
+          Trollop::options(args) do
+            banner "Complete a task"
+
+            opt :id, "The id of the story.", :type => Integer
+            opt :"task-id", "The id of the task.", :required => true, :type => Integer
           end
         else
           Trollop::die "unknown subcommand #{cmd.inspect}"

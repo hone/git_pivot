@@ -103,6 +103,15 @@ module GitPivot
       display_tasks(id, tasks)
     end
 
+    def complete_task(id, task_id)
+      task = @tracker.find_task(id, task_id)
+      task.complete = true
+      @tracker.update_task(id, task)
+
+      tasks = @tracker.tasks(id)
+      display_tasks(id, tasks)
+    end
+
     private
     def display_stories(stories)
       data = stories.collect do |story| 
