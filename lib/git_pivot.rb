@@ -19,14 +19,16 @@
 
 require 'ruport'
 require 'pivotal-tracker'
+require 'git'
 
 module GitPivot
   class GitPivot
 
     # ssl should default to yes since http basic auth is insecure
-    def initialize(project_id, token, owner, use_ssl = true)
+    def initialize(project_id, token, owner, git = nil, use_ssl = true)
       @owner = owner
       @tracker = PivotalTracker.new(project_id, token, {:use_ssl => use_ssl })
+      @g = Git.open('.') if git
     end
 
     # list stories in current sprint
@@ -61,10 +63,11 @@ module GitPivot
     end
 
     # start story
-    def start_story(id)
+    def start_story(id, name = nil)
       story = @tracker.find_story(id)
       story.current_state = "started"
       @tracker.update_story(story)
+      create_topic_branch(topic_branch_name(story, name))
 
       display_story(id)
     end
@@ -129,6 +132,34 @@ module GitPivot
       puts "Story ID: #{story_id}"
       puts Table(:data => data,
                  :column_names => ["ID", "Position", "Complete", "Created At", "Description"])
+    end
+
+    def create_topic_branch(name)
+      if @g
+        # always branch from master
+        unless @g.lib.branch_current == "master"
+          puts 'Switching to master branch'
+          @g.branch('master').checkout
+        end
+
+        puts "Switching to #{name} branch"
+        @g.branch(name).checkout
+      end
+    end
+
+    def topic_branch_name(story, name = nil)
+      name_to_use =
+        if name
+          name
+        else
+          story.name
+        end
+      # convert spaces to underscores and remove all punctation
+      "#{story.id}_#{transform_name(name_to_use)}"
+    end
+
+    def transform_name(name)
+      name.downcase.gsub(' ', '_').gsub(/[^\w]/, '')
     end
 
   end

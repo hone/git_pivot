@@ -13,8 +13,9 @@ Now you'll need to add a <tt>git_pivot.yml</tt> to the root directory of your pr
     project_id: 213992
     token: 3a9390ed9309ba304903939ae948298
     owner: Matt Buck
+    use_git: true
     
-... where <tt>owner</tt> is your name as it appears in the Pivotal Tracker interface.
+... where <tt>owner</tt> is your name as it appears in the Pivotal Tracker interface.  Set <tt>use_git</tt> to <tt>true</tt> if you want GitPivot to automatically create (local) topic branches when you start a story.
 
 == Planned Features
 

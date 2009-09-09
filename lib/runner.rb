@@ -41,12 +41,12 @@ module GitPivot
         end
       end
 
-      @git_pivot = GitPivot.new(configuration["project_id"], configuration["token"], configuration["owner"])
+      @git_pivot = GitPivot.new(configuration["project_id"], configuration["token"], configuration["owner"], configuration["use_git"])
     end
 
     def run
       args = [@method]
-      if @method and @git_pivot.method(@method).arity > 0
+      if @method and @git_pivot.method(@method).arity.abs > 0
         if @cmd_opts[:id]
           args << @cmd_opts[:id]
         elsif @states.any?
@@ -55,6 +55,9 @@ module GitPivot
           Trollop::die "Need to specify a story id"
         end
 
+        if @cmd_opts[:name]
+          args << @cmd_opts[:name].join(' ')
+        end
         if @cmd_opts[:text]
           args << @cmd_opts[:text].join(' ')
         end
@@ -158,6 +161,7 @@ BANNER
             banner "Marks a specific story as started."
         
             opt :id, "The id of the story to start.", :required => true, :type => Integer
+            opt :name, "Topic branch name", :type => :strings
           end
         when "finish"
           command = :finish_story
