@@ -6,7 +6,7 @@ Tool that allows you to work with Pivotal Tracker from the command line.
 
 To install:
 
-    $ gem install hone-git_pivot
+    $ gem install hone-git_pivot -s http://gems.github.com
     
 Now you'll need to add a <tt>git_pivot.yml</tt> to the root directory of your project:
 
@@ -17,13 +17,22 @@ Now you'll need to add a <tt>git_pivot.yml</tt> to the root directory of your pr
     
 ... where <tt>owner</tt> is your name as it appears in the Pivotal Tracker interface.  Set <tt>use_git</tt> to <tt>true</tt> if you want GitPivot to automatically create (local) topic branches when you start a story.
 
+== Current Features
+* display stories in current
+* display stories under "My Work"
+* start a story (optional git support to start a topic branch)
+* display a story with associated "Notes"
+* add a note to a story
+* finish a story
+* list tasks for a story
+* add a task to a story
+* complete tasks
+
 == Planned Features
 
 Planned features include:
-* display stories in current sprint 
-* start working on a ticket that creates a new branch in Git, starts ticket in Pivotal Tracker
-* close ticket in Pivotal Tracker
 * search for stories
+* backlog stories
 
 == Note on Patches/Pull Requests
  
