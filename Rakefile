@@ -11,7 +11,7 @@ begin
     gem.homepage = "http://github.com/hone/git_pivot"
     gem.authors = ["hone"]
     gem.add_development_dependency "hone-pivotal-tracker"
-    gem.add_development_dependency "rupot"
+    gem.add_development_dependency "ruport"
     gem.add_development_dependency "git"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
