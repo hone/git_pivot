@@ -36,7 +36,7 @@ module GitPivot
           if @states.is_a?(Array)
             @states.uniq!
           else
-            @states = nil
+            @states = Array.new
           end
         end
       end
