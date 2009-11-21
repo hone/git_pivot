@@ -1,4 +1,5 @@
 require 'rake'
+require 'bundler'
 
 begin
   require 'jeweler'
