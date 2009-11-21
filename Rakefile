@@ -4,8 +4,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "git_pivot"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Tool that allows you to work with Pivotal Tracker from the command line}
+    gem.description = %Q{Tool that allows you to work with Pivotal Tracker from the command line}
     gem.email = "hone02@gmail.com"
     gem.homepage = "http://github.com/hone/git_pivot"
     gem.authors = ["Terence Lee"]
