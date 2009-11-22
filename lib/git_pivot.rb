@@ -33,13 +33,11 @@ module GitPivot
 
     # list stories in current sprint
     def current_sprint
-      iteration = @tracker.current_iteration
-      display_stories(iteration.stories)
+      @tracker.current_iteration
     end
 
     def my_work
-      stories = @tracker.find({:owner => @owner, :state => "unstarted,started,finished,delivered,rejected"})
-      display_stories(stories)
+      @tracker.find({:owner => @owner, :state => "unstarted,started,finished,delivered,rejected"})
     end
 
     # display the full story
