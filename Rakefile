@@ -13,6 +13,8 @@ begin
     gem.add_dependency "pivotal-tracker", ">= 0.0.6"
     gem.add_dependency "ruport"
     gem.add_dependency "git"
+    gem.add_development_dependency 'leftright'
+    gem.add_development_dependency 'rr'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
@@ -23,7 +25,7 @@ end
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/*_test.rb'
+  test.pattern = 'test/**/test*.rb'
   test.verbose = true
 end
 
