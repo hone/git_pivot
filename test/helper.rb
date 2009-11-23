@@ -52,6 +52,6 @@ class Test::Unit::TestCase
     end
 
     # 10 day count
-    Time.now - fixture_time < 60 * 24 * 10
+    Time.now - fixture_time < 60 * 60 * 24 * 10
   end
 end
