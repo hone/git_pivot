@@ -4,3 +4,5 @@ gem 'git'
 
 gem 'leftright',  :only => :test
 gem 'rr',         :only => :test
+
+bin_path "gbin"
