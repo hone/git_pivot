@@ -7,11 +7,18 @@ class TestGitPivot < Test::Unit::TestCase
   
   def setup
     @git_pivot = GitPivot::GitPivot.new(PROJECT_ID, TOKEN, OWNER, false, true)
+    @git_pivot.instance_eval do
+      def tracker
+        @tracker
+      end
+    end
+    # we need to fixture stub the methods on here
+    @tracker = @git_pivot.tracker
   end
 
   context "current_sprint" do
     setup do
-      fixture_stub(@git_pivot, :current_sprint)
+      fixture_stub(@tracker, :current_iteration)
     end
 
     should "return the current iteration" do
@@ -34,7 +41,7 @@ class TestGitPivot < Test::Unit::TestCase
 
   context "my_work" do
     setup do
-      fixture_stub(@git_pivot, :my_work)
+      fixture_stub(@tracker, :find, {:owner => OWNER, :state => "unstarted,started,finished,delivered,rejected"})
     end
 
     should "return a list of stories" do
@@ -49,17 +56,13 @@ class TestGitPivot < Test::Unit::TestCase
       end
     end
 
-    should "have stories from the current sprint" do
-    end
+    should "have stories from the current sprint"
 
-    should "have stories from the backlog" do
-    end
+    should "have stories from the backlog"
 
-    should "have stories from the icebox" do
-    end
+    should "have stories from the icebox"
 
-    should "only have done stories from the current sprint" do
-    end
+    should "only have done stories from the current sprint"
   end # context
 
 end # class
