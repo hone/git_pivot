@@ -16,7 +16,7 @@ class Test::Unit::TestCase
 
   def fixture_stub(object, method, *args)
     # setup directories if they don't exist
-    fixtures_dir = "test/fixtures"
+    fixtures_dir = "test/fixtures/fixture_stubs"
     object_dir = "#{fixtures_dir}/#{object.class.to_s.sub('::', '__')}"
     method_dir = "#{object_dir}/#{method.to_s}"
 
