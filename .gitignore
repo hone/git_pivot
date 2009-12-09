@@ -5,4 +5,4 @@ rdoc
 pkg
 bin
 vendor
-test/fixtures
+test/fixtures/fixture_stubs

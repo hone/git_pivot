@@ -1,0 +1,47 @@
+current_001:
+  story_type:           feature
+  estimate:             0
+  current_state:        unstarted
+  name:                 test_story_1
+  requested_by:         Tom Piekos
+  owned_by:             
+  labels:               label1
+  description:          test_story_1_description
+
+current_002:
+  story_type:           feature
+  estimate:             5
+  current_state:        unstarted
+  name:                 test_story_2
+  requested_by:         Tom Piekos
+  owned_by:             
+  labels:               label2
+  description:          test_story_2_description
+
+current_003:
+  story_type:           bug
+  current_state:        started
+  name:                 test_story_3
+  requested_by:         Terence Lee
+  owned_by:             
+  labels:               label, label2
+  description:          test_story_3_description
+
+current_004:
+  story_type:           feature
+  estimate:             5
+  current_state:        delivered
+  name:                 test_story_4
+  requested_by:         Tom Piekos
+  owned_by:             Terence Lee
+  labels:               label2
+  description:          test_story_4_description
+
+current_005:
+  story_type:           chore
+  current_state:        started 
+  name:                 test_story_5
+  requested_by:         Terence Lee
+  owned_by:             Tom Piekos
+  labels:               label
+  description:          test_story_5_description

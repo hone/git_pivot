@@ -1,0 +1,10 @@
+icebox_001:
+  story_type:           feature
+  estimate:             0
+  current_state:        unscheduled
+  name:                 test_story_1
+  requested_by:         Tom Piekos
+  owned_by:             
+  labels:               label1
+  description:          test_story_1_description
+

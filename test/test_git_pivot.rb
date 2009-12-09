@@ -14,6 +14,12 @@ class TestGitPivot < Test::Unit::TestCase
     end
     # we need to fixture stub the methods on here
     @tracker = @git_pivot.tracker
+
+    tracker_setup(@tracker)
+  end
+
+  def teardown
+    tracker_teardown(@tracker)
   end
 
   context "current_sprint" do

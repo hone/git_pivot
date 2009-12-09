@@ -1,0 +1,9 @@
+backlog_001:
+  story_type:           feature
+  estimate:             5
+  current_state:        unstarted
+  name:                 test_story_6
+  requested_by:         Terence Lee
+  owned_by:             
+  labels:               label,backlog
+  description:          test_story_6_description

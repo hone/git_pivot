@@ -38,6 +38,30 @@ class Test::Unit::TestCase
     end
   end
 
+  def tracker_setup(tracker)
+    fixtures_directory = "test/fixtures/tracker"
+    check_directory(fixtures_directory)
+
+    # need to clear out
+
+    current_stories_yml = "#{fixtures_directory}/current_stories.yml"
+    files = Dir["#{fixtures_directory}/*"]
+    files -= [ current_stories_yml ]
+    files.unshift(current_stories_yml)
+    files.each do |f|
+      fixture = YAML.load_file(f)
+      fixture.each do |fixture_name, story_hash|
+        tracker.create_story(Story.new(story_hash))
+      end
+    end
+  end
+
+  def tracker_teardown(tracker)
+    tracker.stories.each do |story|
+      tracker.delete_story(story)
+    end
+  end
+
   private
   def check_directory(directory)
     unless File.directory?(directory)
