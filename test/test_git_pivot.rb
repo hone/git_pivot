@@ -3,7 +3,7 @@ require 'helper'
 class TestGitPivot < Test::Unit::TestCase
   TOKEN = 'ec28ee20681177c44a9edfa667fdb1b2'
   OWNER = 'Terence Lee'
-  PROJECT_ID = '25792'
+  PROJECT_ID = '28339'
   
   def setup
     @git_pivot = GitPivot::GitPivot.new(PROJECT_ID, TOKEN, OWNER, false, true)
