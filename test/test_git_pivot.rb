@@ -32,10 +32,7 @@ class TestGitPivot < Test::Unit::TestCase
 
 
     should "have the stories in the current iteration" do
-      story_names = [
-        "current sprint",
-        "finish story"
-      ]
+      story_names = Array(1..5).collect {|num| "test_story_#{num}" }
 
       story_names.each do |story_name|
         assert @git_pivot.current_sprint.stories.find {|story| story.name == story_name }
