@@ -16,7 +16,7 @@ class Test::Unit::TestCase
 
   def fixture_stub(object, method, *args)
     # setup directories if they don't exist
-    fixtures_dir = "test/fixtures/fixture_stubs"
+    fixtures_dir = fixture_stub_dir
     object_dir = "#{fixtures_dir}/#{object.class.to_s.sub('::', '__')}"
     method_dir = "#{object_dir}/#{method.to_s}"
 
@@ -25,9 +25,11 @@ class Test::Unit::TestCase
     check_directory(method_dir)
 
     args_string = Digest::SHA1.hexdigest(YAML::dump(args))
+    timestamp_file = "#{fixtures_dir}/timestamp"
     fixture_file = "#{method_dir}/#{args_string}"
+    current = fixtures_current
     # load stub if recent enough
-    if File.exist?(fixture_file) and fixture_current(fixture_file)
+    if File.exist?(fixture_file) and current
       marshal_data = nil
       File.open(fixture_file) {|file| marshal_data = Marshal.load(file) }
       stub(object).__send__(method, *args)  { marshal_data }
@@ -38,12 +40,17 @@ class Test::Unit::TestCase
     end
   end
 
+  def fixture_stub_dir
+    "test/fixtures/fixture_stubs"
+  end
+
+  def fixture_stub_timestamp
+    fixture_stub_dir + "/timestamp"
+  end
+
   def tracker_setup(tracker)
     fixtures_directory = "test/fixtures/tracker"
     check_directory(fixtures_directory)
-
-    # need to clear out
-
     current_stories_yml = "#{fixtures_directory}/current_stories.yml"
     files = Dir["#{fixtures_directory}/*"]
     files -= [ current_stories_yml ]
@@ -62,20 +69,23 @@ class Test::Unit::TestCase
     end
   end
 
+  def fixtures_current
+    check_directory(fixture_stub_dir)
+
+    # 10 day count
+    if File.exist?(fixture_stub_timestamp) and Time.now - File.ctime(fixture_stub_timestamp) < 60 * 60 * 24 * 10
+      true
+    else
+      FileUtils.touch(fixture_stub_timestamp)
+
+      false
+    end
+  end
+
   private
   def check_directory(directory)
     unless File.directory?(directory)
       FileUtils.mkdir(directory)
     end
-  end
-
-  def fixture_current(fixture_file)
-    fixture_time = nil
-    File.open(fixture_file) do |file|
-      fixture_time = file.mtime
-    end
-
-    # 10 day count
-    Time.now - fixture_time < 60 * 60 * 24 * 10
   end
 end
